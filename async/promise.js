@@ -1,9 +1,12 @@
 function soma(x){
     return new Promise((resolve, reject)=>{
         setTimeout(() => {
-            (null, x +5000);
+            resolve(x +5000);
         },3000);
     })
 }
 
-soma(200);
+soma(230)
+.then((resultado)=>{
+    console.log(`Resolvido, Resultado: ${resultado}`);
+})

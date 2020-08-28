@@ -8,6 +8,6 @@ executa = () => {
     console.log('Executando a função executa');
 };
 
-welcome = 'Bem vindo ao módulo module-01.js';
+const welcome = 'Bem vindo ao módulo module-01.js';
 
-module.exports = {executa, welcome};
+module.exports = {executa, welcome, oculta};

@@ -1,4 +1,4 @@
-const {executa, oculta} = require('./module-01');
+const { executa, oculta} = require('./module-01');
 
 executa();
 

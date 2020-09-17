@@ -1,23 +1,32 @@
+
 const express = require('express');
 const app = express();
+const adminRoutes = require('./routes/admin');
+const userRoutes = require('./routes/user');
+
+app.use('/static',express.static('public'));
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.statusCode = 200;
+app.get('/',(req, res)=>{
     res.send('Hello World');
-});
+})
 
-app.post('/admin', (req,res) => {
-    const body = `Login: ${req.body.login}\n
-    Senha: ${req.body.senha}`;
-    res.send('Acessando a Administração via POST \n' + body);
-});
+app.use('/admin', adminRoutes);
+app.use('/users', userRoutes);
 
-app.get('/admin/:id', (req,res) => {
-    res.send('Acessando a Administração com o id:'+req.params.id);
-});
+app.get('*',(req, res, next)=>{
+    setImmediate(()=>{
+        next( new Error('Temos um problema'));
+    })
+})
 
-app.listen(3000, () => {
+app.use((err, req, res, next)=>{
+    console.log('Geramos um erro, veja as instruções para corrigir!');
+    res.status(500).json({message: err.message});
+})
+
+
+app.listen(3000, ()=>{
     console.log(`Server running: http://localhost:3000`);
-});
+})

@@ -1,4 +1,5 @@
 const express = require('express');
+const subscriber = require('../models/subscriber');
 const router = express.Router();
 const Subscriber = require('../models/subscriber');
 
@@ -11,7 +12,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', getSubscriber, (req, res) => {
     
 });
 
@@ -29,12 +30,26 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', getSubscriber, (req, res) => {
     
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', getSubscriber, (req, res) => {
     
 });
+
+async function getSubscriber(req, res, next){
+    try {
+        subscriber = await Subscriber.findById(req.params.id);
+        if (subscriber == null){
+            return res.status(404).json({message: 'Subscriber not found!'});
+        }
+    } catch (error) {
+        return res.status(500).json({message: error.message});
+    }
+
+    res.subscriber = subscriber
+    next();
+}
 
 module.exports = router;

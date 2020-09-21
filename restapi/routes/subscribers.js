@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', getSubscriber, (req, res) => {
-    
+    res.json(res.subscriber);
 });
 
 router.post('/', async (req, res) => {

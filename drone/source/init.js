@@ -12,7 +12,7 @@ const TELLO_CMD_PORT = 8889;
 const TELLO_HOST = '192.168.10.1';
 
 const getSocket = () => {
-    const socket = createSocket('upd4');
+    const socket = createSocket('udp4');
     socket.bind(TELLO_CMD_PORT);
     return socket;
 }
@@ -22,12 +22,14 @@ const getSocket = () => {
     const cmder = new Commander(socket, TELLO_HOST, TELLO_CMD_PORT);
     await cmder.sendInitCommand();
     const cmdp = new CommandParser({
-        onTakeoff: async () => {await cmder.sendTakeOff()},
+        onTakeoff: async () => {await cmder.sendTakeoff()},
         onLand: async () => {await cmder.sendLand()},
-        onForward: async () => {await cmder.sendForward()},
-        onBack: async () => {await cmder.sendBack()},
-        onRight: async () => {await cmder.sendRight()},
-        onLeft: async () => {await cmder.sendLeft()},
+        onForward: async (dist) => {await cmder.sendForward(dist)},
+        onBack: async (dist) => {await cmder.sendBack(dist)},
+        onRight: async (dist) => {await cmder.sendRight(dist)},
+        onLeft: async (dist) => {await cmder.sendLeft(dist)},
+        onCw: async (dist) => {await cmder.sendCw(dist)},
+        onCcw: async (dist) => {await cmder.sendCcw(dist)},
         onFlip: async () => {await cmder.sendFlip()},
         onBattery: async () => {await cmder.getBattery()}
     });

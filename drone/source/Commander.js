@@ -17,7 +17,7 @@ class Commander {
         })
     }
 
-    sendTakeOff() {
+    sendTakeoff() {
         return new Promisse((res, rej) => {
             this.socket.send('takeoff', 0, 'takeoff'.length, this.port, this.host, (err) => {
                 if(err) {
@@ -80,6 +80,30 @@ class Commander {
     sendLeft(distance=20) {
         return new Promisse((res, rej) => {
             this.socket.send(`left ${distance}`, 0, `left ${distance}`.length, this.port, this.host, (err) => {
+                if(err) {
+                    rej(err);
+                } else {
+                    return res();
+                }
+            })
+        })
+    }
+
+    sendCw(distance=20) {
+        return new Promisse((res, rej) => {
+            this.socket.send(`cw ${distance}`, 0, `cw ${distance}`.length, this.port, this.host, (err) => {
+                if(err) {
+                    rej(err);
+                } else {
+                    return res();
+                }
+            })
+        })
+    }
+
+    sendCcw(distance=20) {
+        return new Promisse((res, rej) => {
+            this.socket.send(`ccw ${distance}`, 0, `ccw ${distance}`.length, this.port, this.host, (err) => {
                 if(err) {
                     rej(err);
                 } else {

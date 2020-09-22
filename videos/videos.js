@@ -1,8 +1,25 @@
 const { spawn } = require('child_process');
 
+const parent = process.argv[2];
+let videos = [];
+
+if (process.argv[2]){
+    const start = parseInt(process.argv[3])
+    const end = parseInt(process.argv[4])
+    
+    for (let i = start; i <= end; i++) {
+        videos.push(i);
+    }
+    videos.reverse();
+    processVideo();
+} else {
+    console.log('É necessário criar um diretório de nível superior.');
+}
+
+
 function resize(video, quality){
     const p = new Promise((resolve, reject) => {
-        const ffmpeg = spwan('./ffmpeg/bin/ffmpeg',[
+        const ffmpeg = spawn('./ffmpeg/bin/ffmpeg',[
             '-i',
             `${parent}/${video}.mp4`,
             '-codec:v',
@@ -33,4 +50,22 @@ function resize(video, quality){
         });
     });
     return p;
+}
+
+async function processVideo() {
+    let video = videos.pop();
+    if(video){
+        try {
+            await resize(video, 720);
+            await resize(video, 480);
+            await resize(video, 360);
+
+            console.log(`Vídeos renderizados - ${video}`);
+
+            processVideo();
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }

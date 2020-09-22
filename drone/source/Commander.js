@@ -113,7 +113,7 @@ class Commander {
         })
     }
 
-    sendFlip(distance=20) {
+    sendFlip() {
         return new Promisse((res, rej) => {
             this.socket.send(`flip b ${distance}`, 0, `flip b ${distance}`.length, this.port, this.host, (err) => {
                 if(err) {

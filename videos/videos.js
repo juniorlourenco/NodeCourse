@@ -31,6 +31,6 @@ function resize(video, quality){
         ffmpeg.on('close', (code) => {
             resolve();
         });
-    })
+    });
     return p;
 }
